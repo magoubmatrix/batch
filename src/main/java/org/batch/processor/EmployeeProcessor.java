@@ -5,15 +5,15 @@ import org.batch.entity.EmployeeDto;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 
+import lombok.Data;
+@Data
 @Component
-public class EmployeeProcessor implements ItemProcessor<EmployeeDto, Employee> {
+public class EmployeeProcessor implements ItemProcessor<Employee, EmployeeDto> {
 
 	@Override
-	public Employee process(EmployeeDto item) throws Exception {
-		Employee emp = new Employee();
-		if(filterEmployeeByAge(25, item))
-			return emp = null;
-		
+	public EmployeeDto process(Employee item) throws Exception {
+		EmployeeDto emp = new EmployeeDto();
+
 		emp.setFirstname(item.getFirstname());
 		emp.setLastname(item.getLastname());
 		emp.setEmail(item.getEmail());
@@ -21,14 +21,6 @@ public class EmployeeProcessor implements ItemProcessor<EmployeeDto, Employee> {
 		return emp;
 	}
 	
-	
-	public boolean filterEmployeeByAge( int ageLimit , EmployeeDto emp) {
-		if(emp.getAge() < ageLimit)
-			return true;
-		else {
-			return false;	
-		}
-		
-	}
+
 
 }

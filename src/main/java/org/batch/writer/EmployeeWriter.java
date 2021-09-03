@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
-@Component
+//@Component
 @Data
 public class EmployeeWriter implements ItemWriter<Employee> {
 

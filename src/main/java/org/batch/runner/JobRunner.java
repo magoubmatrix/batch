@@ -31,7 +31,6 @@ public class JobRunner {
 		
 		JobParametersBuilder parameters = new JobParametersBuilder();
 		parameters.addDate("date", new Date() , true);
-		parameters.addString("inputFile", "emp_1.csv");
 		runJob(job,parameters.toJobParameters());
 		
 	}
