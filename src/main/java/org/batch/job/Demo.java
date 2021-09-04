@@ -13,6 +13,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 import org.springframework.batch.core.step.skip.SkipPolicy;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
@@ -56,7 +57,7 @@ public class Demo {
    
      @Bean
 	public Job demo1Job() throws Exception {
-		return jobBuilderFactory.get("demo1").start(stepDemo1()).build();
+		return jobBuilderFactory.get("demo1").start(stepDemo1()).listener(jobListener()).build();
 	}
 	
 	
@@ -68,6 +69,7 @@ public class Demo {
 				.processor(employeeProcessor)
 				.writer(employeeWriter)
 				.faultTolerant().skipPolicy(skipPolicy())
+				
 				.build();
 		}
 	
@@ -106,5 +108,9 @@ public class Demo {
 		return asyncTaskExecutor;
 	}
 
+	@Bean
+	public JobExecutionListenerSupport jobListener() {
+		return new org.batch.listener.jobListener();
+	}
 	
 }
