@@ -13,6 +13,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.step.skip.SkipPolicy;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 
@@ -66,11 +67,17 @@ public class Demo {
 				.reader(employeReader())
 				.processor(employeeProcessor)
 				.writer(employeeWriter)
-				.taskExecutor(executorTask())
+				.faultTolerant().skipPolicy(skipPolicy())
 				.build();
 		}
 	
-	 @Bean
+     @Bean
+	 public SkipPolicy skipPolicy() {
+		return new JobSkipPolicy();
+	}
+
+
+	@Bean
 	 @StepScope
      public Resource getSource(@Value("#{jobParameters[inputFile]}") final String source) {
     	 return new ClassPathResource(source);
