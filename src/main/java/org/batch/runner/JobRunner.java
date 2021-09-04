@@ -12,7 +12,7 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
-
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +27,7 @@ public class JobRunner {
      
 	private final Job job;
 	
+	@Async
 	public void runBatchJob() {
 		
 		JobParametersBuilder parameters = new JobParametersBuilder();

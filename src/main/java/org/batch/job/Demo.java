@@ -28,9 +28,11 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.PathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 
-import lombok.AllArgsConstructor;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
+
+
 import lombok.Data;
 
 
@@ -60,10 +62,11 @@ public class Demo {
      @Bean
 	public Step stepDemo1()  {
 		return   stepBuilderFactory.get("step1")
-				.<EmployeeDto,Employee>chunk(50)
+				.<EmployeeDto,Employee>chunk(10)
 				.reader(employeReader())
 				.processor(employeeProcessor)
 				.writer(employeeWriter)
+				.taskExecutor(executorTask())
 				.build();
 		}
 	
@@ -81,7 +84,7 @@ public class Demo {
 		reader.setLineMapper(new DefaultLineMapper<EmployeeDto>() {{
 			setLineTokenizer(new DelimitedLineTokenizer() {{
 				setDelimiter(",");
-				setNames("prenom","lastname","email","age");
+				setNames("firstname","lastname","email","age");
 			}});
 			setFieldSetMapper(new EmployeeRowMapperField());
 		}});
@@ -89,6 +92,12 @@ public class Demo {
 	}
 
 
+	@Bean
+	public TaskExecutor executorTask() {
+		SimpleAsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor();
+		asyncTaskExecutor.setConcurrencyLimit(5);
+		return asyncTaskExecutor;
+	}
 
 	
 }

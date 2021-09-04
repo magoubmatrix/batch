@@ -10,7 +10,7 @@ public class EmployeeRowMapperField implements FieldSetMapper<EmployeeDto> {
 	@Override
 	public EmployeeDto mapFieldSet(FieldSet fieldSet) throws BindException {
 		EmployeeDto emp = new EmployeeDto();
-		emp.setFirstname(fieldSet.readString("prenom"));
+		emp.setFirstname(fieldSet.readString("firstname"));
 		emp.setLastname(fieldSet.readString("lastname"));
 		emp.setEmail(fieldSet.readString("email"));
 		emp.setAge(fieldSet.readInt("age"));

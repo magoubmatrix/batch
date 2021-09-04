@@ -11,8 +11,8 @@ public class EmployeeProcessor implements ItemProcessor<EmployeeDto, Employee> {
 	@Override
 	public Employee process(EmployeeDto item) throws Exception {
 		Employee emp = new Employee();
-		if(filterEmployeeByAge(25, item))
-			return emp = null;
+		//if(filterEmployeeByAge(25, item))
+			//return emp = null;
 		
 		emp.setFirstname(item.getFirstname());
 		emp.setLastname(item.getLastname());
